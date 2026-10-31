@@ -1,93 +1,98 @@
-# TaskFlow — Collaborative Project Management
+TaskFlow — Collaborative Project Management
+code_alpha_managment_tool
 
-A full-stack Trello/Asana-style tool: group projects, Kanban boards, task cards with
-assignees, in-task comments with @mentions, notifications, and real-time updates over WebSockets.
+A full-stack Trello/Asana-style project management tool featuring group projects, Kanban boards, task cards, assignees, comments, notifications, and real-time updates.
 
-## Stack
+Tech Stack
+Layer	Technology
+Backend	Node.js, Express, better-sqlite3, JWT, bcryptjs, Socket.IO
+Frontend	React 18, Vite, react-router
+Realtime	Socket.IO
+Features
+Authentication — Register and login with JWT authentication.
+Group Projects — Create projects and invite team members.
+Project Boards — Multiple Kanban boards with custom lists.
+Task Management — Create, edit, delete, and move tasks.
+Assignments — Assign project members to tasks.
+Comments — Task discussions with @mentions.
+Notifications — Notifications for assignments, comments, and invitations.
+Real-time Updates — Live board synchronization using Socket.IO.
+Activity Feed — Track project activities.
+Modern UI — Responsive dashboard, sidebar, and search.
+Themes — Dark and light themes.
+Responsive Design — Mobile-friendly interface.
+Getting Started
 
-| Layer    | Tech |
-|----------|------|
-| Backend  | Node.js, Express, better-sqlite3, JWT auth, bcryptjs, Socket.IO |
-| Frontend | React 18, Vite, react-router, socket.io-client |
-| Realtime | Socket.IO (JWT-authenticated), live board sync, presence, notifications |
+Install dependencies:
 
-## Features
+bash
+npm install
 
-- **Auth** — register / login (JWT, 7-day expiry), bcrypt-hashed passwords
-- **Group projects** — create projects, invite members by username/email, roles (owner / admin / member)
-- **Project boards** — multiple Kanban boards per project, custom lists, rename/delete
-- **Task cards** — drag & drop between lists, priority, due dates, completion, description
-- **Assignment** — assign any project member to a task
-- **Comments** — threaded discussion inside each task, edit/delete own comments, `@username` mentions
-- **Notifications** — bell with unread badge for assignments, comments, mentions, project invites
-- **Real-time** — every board change (tasks, lists, moves, comments, members) broadcasts live to
-  all project members via Socket.IO; plus "who's viewing" presence on open tasks
-- **Activity feed** — per-project audit trail of what teammates are doing
-- **Modern UI** — collapsible sidebar, dashboard stats, project search & sorting,
-  board filters (search, assignee, priority, label, status, due date)
-- **Themes** — dark by default, optional light theme persisted in `localStorage`
-- **Responsive** — mobile drawer navigation, stacked layouts, horizontal board scrolling
 
-## Getting started
+Seed demo data (optional):
 
-```bash
-npm install          # installs server + client workspaces
-npm run seed         # optional: demo data (alice/bob/carol)
-npm run dev          # starts API on :4000 and Vite dev server on :5173
-```
+bash
+npm run seed
 
-Open http://localhost:5173 — log in as `alice@example.com` / `alice123`
-(also `bob@example.com` / `bob12345`, `carol@example.com` / `carol123`).
 
-### Production
+Start development servers:
 
-```bash
-npm run serve        # builds the client, then serves API + WebSockets + UI on :4000
-```
+bash
+npm run dev
 
-Or step by step:
 
-```bash
-npm run build        # builds client into client/dist
-npm start            # Express serves the API, WebSockets, and the built client on :4000
-```
+Open:
 
-> Opening **http://localhost:4000** serves the compiled build from `client/dist`.
-> After changing anything in `client/src` (including `styles.css`), run `npm run build`
-> again and restart the server. For development with hot reload use `npm run dev` and open
-> **http://localhost:5173** instead.
+http://localhost:5173
 
-Environment variables (server): `PORT` (default 4000), `JWT_SECRET`, `CLIENT_ORIGIN`
-(default `http://localhost:5173`, used for CORS + Socket.IO).
+Demo Accounts
+alice@example.com / alice123
+bob@example.com / bob12345
+carol@example.com / carol123
+Production
 
-## API overview
+Build the client:
 
-```
-POST   /api/auth/register | /api/auth/login      GET /api/auth/me
-GET    /api/auth/search?q=                       PUT /api/auth/profile
-GET    /api/projects          POST /api/projects
-GET    /api/projects/:id      PATCH|DELETE /api/projects/:id
-GET|POST /api/projects/:id/members                PATCH|DELETE /api/projects/:id/members/:userId
-GET    /api/projects/:id/activities
-GET    /api/boards/:id        POST|PATCH|DELETE /api/boards
-POST   /api/boards/:id/lists  PATCH|DELETE /api/lists/:id
-POST   /api/lists/:id/tasks   GET|PATCH|DELETE /api/tasks/:id
-POST   /api/tasks/:id/assignees                   DELETE /api/tasks/:id/assignees/:userId
-GET|POST /api/tasks/:id/comments                  PATCH|DELETE /api/comments/:id
-GET    /api/notifications     POST /api/notifications/read-all | /:id/read
-```
+bash
+npm run build
 
-All routes (except register/login/health) require `Authorization: Bearer <token>`.
 
-### WebSocket events
+Start the application:
 
-Client → server: `project:subscribe`, `presence:track`, `presence:update`.
-Server → client: `task:created|updated|moved|deleted`, `list:*`, `board:*`,
-`comment:created|updated|deleted`, `member:*`, `activity:new`, `notification`, `presence:update`.
+bash
+npm start
 
-## Project layout
+Environment Variables
+PORT — Default: 4000
+JWT_SECRET — JWT authentication secret
+CLIENT_ORIGIN — Default: http://localhost:5173
+API Overview
+Authentication
+Projects and Members
+Boards and Lists
+Tasks and Assignments
+Comments
+Notifications
 
-```
-server/src/         Express app, SQLite schema, REST routes, Socket.IO realtime
-client/src/         React app (pages: Projects, Project, Board; components: AppLayout, Sidebar, Topbar, TaskModal…)
-```
+All protected routes require:
+
+text
+Authorization: Bearer <token>
+
+WebSocket
+
+Socket.IO provides real-time updates for tasks, boards, comments, members, notifications, and user presence.
+
+Project Structure
+text
+server/
+  src/
+    Express app, database, routes, middleware
+
+client/
+  src/
+    React components, pages, styles
+
+License
+
+This project is developed as a collaborative project management tool.
