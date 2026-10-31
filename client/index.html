@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b0e14" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="TaskFlow — collaborative project management with Kanban boards, tasks, comments and real-time updates."
+    />
+    <title>TaskFlow — Collaborative Project Management</title>
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('taskflow_theme');
+          if (t === 'light' || t === 'dark') {
+            document.documentElement.dataset.theme = t;
+            var color = document.querySelector('meta[name="theme-color"]');
+            var scheme = document.querySelector('meta[name="color-scheme"]');
+            if (color) color.content = t === 'dark' ? '#0b0e14' : '#f6f7fb';
+            if (scheme) scheme.content = t;
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
